@@ -39,7 +39,6 @@ function App() {
       {customers.map(c => (
         <Customer 
           key={c.id}
-          id={c.id} 
           image={c.image}
           name={c.name} 
           birthday={c.birthday}
