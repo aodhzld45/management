@@ -1,31 +1,22 @@
 import React from 'react';
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
 
-const Customer = (customer) => {
-  return (
-    <div>
-    <CustomerProfile id={customer.id} image={customer.image} name={customer.name}/>
-    <CustomerInfo birthday ={customer.birthday} gender={customer.gender} job={customer.job} />
-    </div>
-  );
-}
+const Customer = (customers) => {
+  const { id, image, name, birthday, gender, job } = customers; // customers(props) 객체에서 id를 추출
 
-const CustomerProfile = (customer) => {
   return (
-    <div>
-      <img src={customer.image} alt='profile' />
-      <h2>{customer.name}({customer.id})</h2>
-    </div>
+
+    <TableRow>
+
+            <TableCell>{id}</TableCell>
+            <TableCell><img src={image} alt='profile' /></TableCell>
+            <TableCell>{name}</TableCell>
+            <TableCell>{birthday}</TableCell>
+            <TableCell>{gender}</TableCell>
+            <TableCell>{job}</TableCell>
+
+    </TableRow>
   )
 }
-
-const CustomerInfo = (customer) => {
-  return (
-    <div>
-      <h3>{customer.birthday}</h3>
-      <h3>{customer.gender}</h3>
-      <h3>{customer.job}</h3>
-    </div>
-  )
-}
-
 export default Customer;

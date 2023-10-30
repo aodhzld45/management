@@ -1,6 +1,13 @@
 import './App.css';
 import Customer from './components/customer';
 
+// material-ui를 통한 테이블
+import Table from '@mui/material/Table';
+import { TableHead } from '@mui/material';
+import { TableBody } from '@mui/material';
+import { TableRow } from '@mui/material';
+import { TableCell } from '@mui/material';
+
 const images = [
   require("./img/ryan.jpg"),
   require("./img/youkyung.jpg"),
@@ -36,9 +43,21 @@ const customers = [
 function App() {
   return (
     <div>
+      <Table>
+      <TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>Name</TableCell>
+            <TableCell>Birthday</TableCell>
+            <TableCell>Gender</TableCell>
+            <TableCell>Job</TableCell>
+          </TableRow>
+        </TableHead>
+      <TableBody>
       {customers.map(c => (
         <Customer 
           key={c.id}
+          id={c.id}
           image={c.image}
           name={c.name} 
           birthday={c.birthday}
@@ -46,6 +65,8 @@ function App() {
           job={c.job}
         />
       ))}
+      </TableBody>
+      </Table>
     </div>
  
       
