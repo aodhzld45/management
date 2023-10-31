@@ -10,7 +10,7 @@ const Customer = (customers) => {
     <TableRow>
 
             <TableCell>{id}</TableCell>
-            <TableCell><img src={image} alt='profile' /></TableCell>
+            <TableCell><img src={image} alt='profile' width="64" height="64" /></TableCell>
             <TableCell>{name}</TableCell>
             <TableCell>{birthday}</TableCell>
             <TableCell>{gender}</TableCell>
