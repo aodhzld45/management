@@ -6,8 +6,9 @@ import React, { useState, useEffect } from 'react'; // React, useState, useEffec
 import Table from '@mui/material/Table';
 import { TableHead, TableBody, TableRow, TableCell } from '@mui/material';
 import { styled } from '@mui/system'; // styled 함수를 import
-
 import { Paper } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 const RootContainer = styled(Paper)({
   width: '100%',
@@ -19,7 +20,7 @@ const TableContainer = styled(Table)({
   minWidth: 1080,
 });
 
-// const images = [
+// const images = [ -> Server.js에서 API 호출을 통해 불러오는것으로 변경
 //   require("./img/ryan.jpg"),
 //   require("./img/youkyung.jpg"),
 //   require("./img/hong.jpg"),
@@ -30,14 +31,33 @@ function App() {
   // useState 훅을 사용하여 'customers' 상태와 그 상태를 업데이트할 'setCustomers' 함수를 생성
   // 'customers'는 서버에서 불러온 고객 정보를 저장할 배열, 초기값은 빈 배열
   const [customers, setCustomers] = useState([]);
+  const [completed, setCompleted] = useState(0);
 
   // useEffect 훅을 사용하여 부수 효과(사이드 이펙트)를 처리
   // 이 부분은 컴포넌트가 마운트될 때(fetch 요청 등) 실행하도록 설정
   // 마운트 시 한 번 실행. 두 번째 매개변수인 빈 배열([])은 의존성 배열로, 여기서는 의존성이 없으므로 한 번만 실행
   useEffect(() => {
+    const progress = () => {
+      setCompleted((prevCompleted) => (prevCompleted >= 100 ? 0 : prevCompleted + 1));
+    };
+    const timer = setInterval(progress, 100);
+
     callApi() // callApi 함수를 호출하여 고객 데이터를 불러옴
-      .then(res => setCustomers(res))
-      .catch(err => console.log(err));
+    .then((res) => {
+      setCustomers(res);
+      // setCompleted(100); // 데이터를 성공적으로 불러왔을 때 completed를 100으로 설정
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      clearInterval(timer); // 컴포넌트가 언마운트될 때 타이머를 정리
+      setCompleted(100); // 데이터를 성공적으로 불러왔을 때 completed를 100으로 설정
+      console.log(completed);
+    });
+
+      // return () => {
+      //   clearInterval(timer); // 컴포넌트가 언마운트될 때 타이머를 정리
+      // };
+      
   }, []);
 
   // callApi 함수는 비동기 함수로, 서버에서 고객 정보를 가져오기 위해 API 요청
@@ -49,6 +69,7 @@ function App() {
     // 파싱된 데이터(body)를 반환
     return body;
   };
+
 
   return (
     <RootContainer>
@@ -63,20 +84,29 @@ function App() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {customers.map(c => (
-            <Customer
-              key={c.id}
-              image={c.image}
-              name={c.name}
-              birthday={c.birthday}
-              gender={c.gender}
-              job={c.job}
-            />
-          ))}
+          {completed === 100 ? (
+            customers.map((c) => (
+              <Customer
+                key={c.id}
+                image={c.image}
+                name={c.name}
+                birthday={c.birthday}
+                gender={c.gender}
+                job={c.job}
+              />
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan="6" align="center">
+                <CircularProgress variant="determinate" value={completed} />
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </TableContainer>
     </RootContainer>
   );
 }
+
 
 export default App;
