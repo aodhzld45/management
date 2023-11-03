@@ -51,8 +51,8 @@ function App() {
     .finally(() => {
       clearInterval(timer); // 컴포넌트가 언마운트될 때 타이머를 정리
       setCompleted(100); // 데이터를 성공적으로 불러왔을 때 completed를 100으로 설정
-      console.log(completed);
-    });
+      // console.log(completed);
+    })
 
       // return () => {
       //   clearInterval(timer); // 컴포넌트가 언마운트될 때 타이머를 정리
