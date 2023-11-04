@@ -38,7 +38,15 @@ oracledb.getConnection(connectionConfig, (err, connection) => {
           console.error(err.message);
           return;
         }
-        res.json(result.rows);
+        const customers = result.rows.map((row) => ({
+          id: row[0],
+          image: row[1],
+          name: row[2],
+          birthday: row[3],
+          gender: row[4],
+          job: row[5],
+        }));
+        res.json(customers);
       }
     );
   });
