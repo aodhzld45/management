@@ -1,5 +1,6 @@
 import './App.css';
 import Customer from './components/customer';
+import CustomerFormModal from "./components/CustomerFormModal";
 import React, { useState, useEffect } from 'react'; // React, useState, useEffect를 import
 
 // material-ui를 통한 테이블
@@ -7,6 +8,7 @@ import Table from '@mui/material/Table';
 import { TableHead, TableBody, TableRow, TableCell } from '@mui/material';
 import { styled } from '@mui/system'; // styled 함수를 import
 import { Paper } from '@mui/material';
+// Progress Loading bar
 import CircularProgress from '@mui/material/CircularProgress';
 
 
@@ -104,6 +106,7 @@ function App() {
           )}
         </TableBody>
       </TableContainer>
+      
     </RootContainer>
   );
 }
