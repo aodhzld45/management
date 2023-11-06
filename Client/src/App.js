@@ -10,6 +10,7 @@ import { styled } from '@mui/system'; // styled 함수를 import
 import { Paper } from '@mui/material';
 // Progress Loading bar
 import CircularProgress from '@mui/material/CircularProgress';
+import axios from 'axios'; // axios 추가
 
 
 const RootContainer = styled(Paper)({
@@ -22,18 +23,18 @@ const TableContainer = styled(Table)({
   minWidth: 1080,
 });
 
-// const images = [ -> Server.js에서 API 호출을 통해 불러오는것으로 변경
-//   require("./img/ryan.jpg"),
-//   require("./img/youkyung.jpg"),
-//   require("./img/hong.jpg"),
-//   // Add more image paths as needed
-// ];
-
 function App() {
   // useState 훅을 사용하여 'customers' 상태와 그 상태를 업데이트할 'setCustomers' 함수를 생성
   // 'customers'는 서버에서 불러온 고객 정보를 저장할 배열, 초기값은 빈 배열
   const [customers, setCustomers] = useState([]);
   const [completed, setCompleted] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleToggleModal = () => {
+    setModalOpen(!modalOpen);
+  };
+
+
 
   // useEffect 훅을 사용하여 부수 효과(사이드 이펙트)를 처리
   // 이 부분은 컴포넌트가 마운트될 때(fetch 요청 등) 실행하도록 설정
@@ -62,6 +63,8 @@ function App() {
       
   }, []);
 
+  
+
   // callApi 함수는 비동기 함수로, 서버에서 고객 정보를 가져오기 위해 API 요청
   const callApi = async () => {
     // fetch 함수를 사용하여 '/api/customers' 엔드포인트에 GET 요청
@@ -71,6 +74,28 @@ function App() {
     // 파싱된 데이터(body)를 반환
     return body;
   };
+      // 이 함수는 서버로 POST 요청을 보내고 고객 데이터를 추가합니다.
+  const handleCustomerSubmit = (formData) => {
+    // 서버로 보낼 데이터를 정의
+    const data = {
+      id: formData.id,
+      image: formData.image,
+      name: formData.name,
+      birthday: formData.birthday,
+      gender: formData.gender,
+      job: formData.job,
+    };
+     // 서버의 /api/customers 엔드포인트로 POST 요청 보내기
+     axios.post('/api/customers', data)
+     .then((response) => {
+       // 요청 성공 시 새로운 고객 데이터를 추가하여 상태를 업데이트
+       setCustomers([...customers, response.data]);
+       handleToggleModal(); // 모달 닫기
+     })
+     .catch((error) => {
+       console.error(error);
+     });
+ };
 
 
   return (
@@ -106,6 +131,12 @@ function App() {
           )}
         </TableBody>
       </TableContainer>
+
+      <div>
+      <button onClick={handleToggleModal}>고객 추가</button>
+      <CustomerFormModal onSubmit={handleCustomerSubmit} isOpen={modalOpen} toggleModal={handleToggleModal} />
+
+      </div>
       
     </RootContainer>
   );
