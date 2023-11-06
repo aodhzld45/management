@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { styled } from '@mui/system'; // styled 함수를 import
 import axios from 'axios';
 
 // 스타일드 컴포넌트를 사용하여 버튼 스타일링
-const AddCustomerButton = styled.button`
-  background-color: #007bff; // 배경색
-  color: #fff; // 글자색
-  padding: 10px 20px; // 패딩
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-right: 20px; // 오른쪽 여백 추가
-`;
+// const AddCustomerButton = styled.button`
+//   background-color: #007bff; // 배경색
+//   color: #fff; // 글자색
+//   padding: 10px 20px; // 패딩
+//   border: none;
+//   border-radius: 5px;
+//   cursor: pointer;
+//   margin-right: 20px; // 오른쪽 여백 추가
+// `;
 
 function CustomerFormModal({ onSubmit, isOpen, toggleModal  }) {
   const [formData, setFormData] = useState({
@@ -121,9 +120,9 @@ function CustomerFormModal({ onSubmit, isOpen, toggleModal  }) {
                   onChange={(e) => setFormData({ ...formData, job: e.target.value })}
                 />
               </label>
-                <AddCustomerButton type="button" onClick={handleAddCustomer}>
+              <button type="button" onClick={handleAddCustomer}>
                   저장
-                </AddCustomerButton>
+                </button>
                 <button type="button" onClick={toggleModal}>
                   취소
                 </button>
