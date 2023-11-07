@@ -30,6 +30,8 @@ oracledb.getConnection(connectionConfig, (err, connection) => {
   console.log('Connected to OracleDB');
 
   // 연결이 성공적으로 생성되었을 때 실행할 코드
+
+// 고객 정보를 반환하는 GET 요청을 처리하는 엔드포인트
   app.get('/api/customers', (req, res) => {
     connection.execute(
       'SELECT * FROM CUSTOMER',
@@ -46,10 +48,27 @@ oracledb.getConnection(connectionConfig, (err, connection) => {
           gender: row[4],
           job: row[5],
         }));
+        // 고객 목록을 JSON 형식으로 클라이언트에 반환
         res.json(customers);
       }
     );
   });
+
+// 고객 추가를 위한 POST 요청을 처리하는 엔드포인트
+// app.post('/api/customers', (req, res) => {
+//   connection.execute(
+   
+//   )
+
+
+
+//  }
+
+  
+
+
+
+
 
   // 연결 해제
   // connection.close((err) => {

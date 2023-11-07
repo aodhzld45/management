@@ -10,7 +10,7 @@ import { styled } from '@mui/system'; // styled 함수를 import
 import { Paper } from '@mui/material';
 // Progress Loading bar
 import CircularProgress from '@mui/material/CircularProgress';
-import axios from 'axios'; // axios 추가
+// import axios from 'axios'; // axios 추가
 
 
 const RootContainer = styled(Paper)({
@@ -75,27 +75,27 @@ function App() {
     return body;
   };
       // 이 함수는 서버로 POST 요청을 보내고 고객 데이터를 추가합니다.
-  const handleCustomerSubmit = (formData) => {
-    // 서버로 보낼 데이터를 정의
-    const data = {
-      id: formData.id,
-      image: formData.image,
-      name: formData.name,
-      birthday: formData.birthday,
-      gender: formData.gender,
-      job: formData.job,
-    };
-     // 서버의 /api/customers 엔드포인트로 POST 요청 보내기
-     axios.post('/api/customers', data)
-     .then((response) => {
-       // 요청 성공 시 새로운 고객 데이터를 추가하여 상태를 업데이트
-       setCustomers([...customers, response.data]);
-       handleToggleModal(); // 모달 닫기
-     })
-     .catch((error) => {
-       console.error(error);
-     });
- };
+//   const handleCustomerSubmit = (formData) => {
+//     // 서버로 보낼 데이터를 정의
+//     const data = {
+//       id: formData.id,
+//       image: formData.image,
+//       name: formData.name,
+//       birthday: formData.birthday,
+//       gender: formData.gender,
+//       job: formData.job,
+//     };
+//      // 서버의 /api/customers 엔드포인트로 POST 요청 보내기
+//      axios.post('/api/customers', data)
+//      .then((response) => {
+//        // 요청 성공 시 새로운 고객 데이터를 추가하여 상태를 업데이트
+//        setCustomers([...customers, response.data]);
+//        handleToggleModal(); // 모달 닫기
+//      })
+//      .catch((error) => {
+//        console.error(error);
+//      });
+//  };
 
 
   return (
@@ -134,7 +134,7 @@ function App() {
 
       <div>
       <button onClick={handleToggleModal}>고객 추가</button>
-      <CustomerFormModal onSubmit={handleCustomerSubmit} isOpen={modalOpen} toggleModal={handleToggleModal} />
+      <CustomerFormModal isOpen={modalOpen} toggleModal={handleToggleModal} />
 
       </div>
       
