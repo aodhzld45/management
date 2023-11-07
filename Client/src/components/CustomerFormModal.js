@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import Modal from 'react-modal'; // react-modal 라이브러리를 import
 import axios from 'axios';
+
+Modal.setAppElement('#root'); // 모달을 사용할 앱의 루트 엘리먼트 설정
 
 // 스타일드 컴포넌트를 사용하여 버튼 스타일링
 // const AddCustomerButton = styled.button`
@@ -67,10 +70,12 @@ function CustomerFormModal({ onSubmit, isOpen, toggleModal  }) {
   // };
 
   return (
-    <div>
-      {isOpen && (
-        <div className="modal">
-          <div className="modal-content">
+    <Modal
+    isOpen={isOpen} // 모달 열기/닫기 상태
+    onRequestClose={toggleModal} // 모달을 닫을 때 호출되는 함수
+    contentLabel="Customer Form Modal" // 모달의 레이블
+  >
+    <h2>고객 정보 입력</h2>
             <form>
               <label>
                 ID:
@@ -127,10 +132,9 @@ function CustomerFormModal({ onSubmit, isOpen, toggleModal  }) {
                   취소
                 </button>
             </form>
-          </div>
-        </div>
-      )}
-    </div>
+      
+      
+    </Modal>
   );
 }
 
