@@ -20,8 +20,17 @@ function CustomerFormModal({ isOpen, toggleModal  }) {
     addCustomer()
     .then((res) => {
       console.log(res.data);
-      
     });
+    // 값 초기화
+    setFormData({
+      file: null,
+      name: '',
+      birthday: '',
+      gender: '',
+      job: '',
+      fileName: ''
+    });
+    window.location.reload(); // 페이지 새로고침.
 
   };
 
