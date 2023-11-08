@@ -4,6 +4,12 @@ const app = express();
 const port = process.env.PORT || 5000;
 const fs = require('fs');
 
+// 파일 처리를 위한 multer 라이브러리
+const multer = require('multer');
+const upload = multer({dest: './upload'});
+
+app.use('image', express.static('./upload'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -54,15 +60,31 @@ oracledb.getConnection(connectionConfig, (err, connection) => {
     );
   });
 
+
+
 // 고객 추가를 위한 POST 요청을 처리하는 엔드포인트
-// app.post('/api/customers', (req, res) => {
-//   connection.execute(
-   
-//   )
+app.post('/api/customers', upload.single('image'), (req, res) => {
+  let sql = 'INSERT INTO CUSTOMER VALUES (SEQ_CUSTOMER_ID.NEXTVAL, :1, :2, :3, :4, :5)';
+  let image = 'http://localhost:5000/image/' + req.file.filename;
+  let name = req.body.name;
+  let birthday = req.body.birthday;
+  let gender = req.body.gender;
+  let job = req.body.job;
+  let params = [image, name, birthday, gender, job];
 
+  connection.execute(sql, params, { autoCommit: true })
+    .then((result) => {
+      // 결과에서 새로 생성된 고객 ID를 가져옵니다.
+      const customerId = result.outBinds[0]; // ID가 첫 번째 OUT bind인 경우를 가정합니다.
 
-
-//  }
+      // 새로 생성된 고객 ID를 응답으로 반환합니다.
+      res.json({ customerId });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('고객 추가 중 오류가 발생했습니다');
+    });
+});
 
   
 
