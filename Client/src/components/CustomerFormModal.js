@@ -69,8 +69,6 @@ function CustomerFormModal({ isOpen, toggleModal  }) {
         },
       };
 
-    
-
       return axios.post(url, customerFormData, config);
     }
 

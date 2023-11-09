@@ -8,7 +8,7 @@ const fs = require('fs');
 const multer = require('multer');
 const upload = multer({dest: './upload'});
 
-app.use('image', express.static('./upload'));
+app.use('/image', express.static('./upload'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -64,8 +64,8 @@ oracledb.getConnection(connectionConfig, (err, connection) => {
 
 // 고객 추가를 위한 POST 요청을 처리하는 엔드포인트
 app.post('/api/customers', upload.single('image'), (req, res) => {
-  let sql = 'INSERT INTO CUSTOMER VALUES (SEQ_CUSTOMER_ID.NEXTVAL, :1, :2, :3, :4, :5)';
-  let image = 'http://localhost:5000/image/' + req.file.filename;
+  let sql = 'INSERT INTO CUSTOMER (id, image, name, birthday, gender, job) VALUES (SEQ_CUSTOMER_ID.NEXTVAL, :1, :2, :3, :4, :5)';
+  let image = '/image/' + req.file.filename;
   let name = req.body.name;
   let birthday = req.body.birthday;
   let gender = req.body.gender;
@@ -74,11 +74,9 @@ app.post('/api/customers', upload.single('image'), (req, res) => {
 
   connection.execute(sql, params, { autoCommit: true })
     .then((result) => {
-      // 결과에서 새로 생성된 고객 ID를 가져옵니다.
-      const customerId = result.outBinds[0]; // ID가 첫 번째 OUT bind인 경우를 가정합니다.
-
-      // 새로 생성된 고객 ID를 응답으로 반환합니다.
-      res.json({ customerId });
+      // 결과에서 새로 생성된 고객 ID를 가져옴
+      // 새로 생성된 고객 ID(Sequence)를 응답으로 반환
+      res.json(result);
     })
     .catch((err) => {
       console.error(err);
