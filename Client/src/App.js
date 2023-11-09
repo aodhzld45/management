@@ -1,5 +1,5 @@
 import './App.css';
-import Customer from './components/customer';
+import Customer from './components/Customer';
 import CustomerFormModal from "./components/CustomerFormModal";
 import React, { useState, useEffect } from 'react'; // React, useState, useEffect를 import
 
