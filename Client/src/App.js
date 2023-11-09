@@ -30,6 +30,15 @@ function App() {
   const [completed, setCompleted] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
 
+  // SPA를 이용한 state Refresh -> 함수 자체를 Props 형태로 전달
+  const stateRefresh = () => {
+    setCustomers([]);
+    // setCompleted(0);
+    callApi()
+    .then((res) => setCustomers(res))
+    .catch((err) => console.log(err));
+  };
+
   const handleToggleModal = () => {
     setModalOpen(!modalOpen);
   };
@@ -135,7 +144,7 @@ function App() {
 
       <div>
       <button onClick={handleToggleModal}>고객 추가</button>
-      <CustomerFormModal isOpen={modalOpen} toggleModal={handleToggleModal} />
+      <CustomerFormModal isOpen={modalOpen} toggleModal={handleToggleModal} stateRefresh={stateRefresh} />
 
       </div>
       

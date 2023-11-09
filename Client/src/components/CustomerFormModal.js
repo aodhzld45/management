@@ -4,7 +4,7 @@ import axios  from 'axios';
 
 Modal.setAppElement('#root'); // 모달을 사용할 앱의 루트 엘리먼트 설정
 
-function CustomerFormModal({ isOpen, toggleModal  }) {
+function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
   const [formData, setFormData] = useState({
     file: null,
     name: '',
@@ -20,6 +20,8 @@ function CustomerFormModal({ isOpen, toggleModal  }) {
     addCustomer()
     .then((res) => {
       console.log(res.data);
+      stateRefresh();
+      toggleModal();
     });
     // 값 초기화
     setFormData({
@@ -30,7 +32,7 @@ function CustomerFormModal({ isOpen, toggleModal  }) {
       job: '',
       fileName: ''
     });
-    window.location.reload(); // 페이지 새로고침.
+    // window.location.reload(); // 페이지 새로고침.
 
   };
 
