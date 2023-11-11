@@ -40,7 +40,7 @@ oracledb.getConnection(connectionConfig, (err, connection) => {
 // 고객 정보를 반환하는 GET 요청을 처리하는 엔드포인트
   app.get('/api/customers', (req, res) => {
     connection.execute(
-      'SELECT * FROM CUSTOMER',
+      'SELECT * FROM CUSTOMER WHERE ISDELETED = 0',
       (err, result) => {
         if (err) {
           console.error(err.message);
@@ -64,7 +64,7 @@ oracledb.getConnection(connectionConfig, (err, connection) => {
 
 // 고객 추가를 위한 POST 요청을 처리하는 엔드포인트
 app.post('/api/customers', upload.single('image'), (req, res) => {
-  let sql = 'INSERT INTO CUSTOMER (id, image, name, birthday, gender, job) VALUES (SEQ_CUSTOMER_ID.NEXTVAL, :1, :2, :3, :4, :5)';
+  let sql = 'INSERT INTO CUSTOMER (id, image, name, birthday, gender, job, isdeleted, createdate) VALUES (SEQ_CUSTOMER_ID.NEXTVAL, :1, :2, :3, :4, :5, 0, sysdate)';
   let image = '/image/' + req.file.filename;
   let name = req.body.name;
   let birthday = req.body.birthday;
@@ -83,6 +83,27 @@ app.post('/api/customers', upload.single('image'), (req, res) => {
       res.status(500).send('고객 추가 중 오류가 발생했습니다');
     });
 });
+
+// 고객 삭제를 위한 DELETE 요청을 처리하는 엔드포인트
+app.delete('/api/customers/:id', (req, res) => {
+  let sql = 'UPDATE CUSTOMER SET ISDELETED = 1 WHERE id = :id';
+  let params = { id: req.params.id };
+ 
+  connection.execute(sql, params, { autoCommit: true })
+  .then((result) => {
+    console.log('고객 삭제 성공:', result);
+    res.json(result);
+  })
+  .catch((err) => {
+    console.error('고객 삭제 중 오류가 발생했습니다:', err);
+    res.status(500).send('고객 삭제 중 오류가 발생했습니다');
+  });
+
+});
+
+
+
+
 
   
 
