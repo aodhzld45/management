@@ -1,6 +1,21 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal'; // react-modal 라이브러리를 import
 import axios  from 'axios';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material';
+import DialogTitle from '@mui/material';
+import DialogContent from '@mui/material';
+import TextField from '@mui/material';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/system'; // styled 함수를 import
+
+
+const StyledDialog = styled(Dialog)({
+  // 다이얼로그 컨테이너에 대한 사용자 정의 스타일을 추가
+  hidden: {
+    display: 'none'
+  }
+});
 
 Modal.setAppElement('#root'); // 모달을 사용할 앱의 루트 엘리먼트 설정
 
@@ -11,7 +26,8 @@ function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
     birthday: '',
     gender: '',
     job: '',
-    fileName: ''
+    fileName: '',
+    open: false
   });
 
   const handleFormSubmit = async (e) => {
@@ -72,6 +88,25 @@ function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
       };
 
       return axios.post(url, customerFormData, config);
+    }
+
+    const handleClickOpen = (e) => {
+      setFormData({
+        open: true,
+
+      });
+    }
+
+    const handleClose = (e) => {
+      setFormData({
+        file: null,
+        name: '',
+        birthday: '',
+        gender: '',
+        job: '',
+        fileName: '',
+        open: false
+      });
     }
 
 
