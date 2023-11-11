@@ -43,6 +43,8 @@ function App() {
     setModalOpen(!modalOpen);
   };
 
+
+
   // useEffect 훅을 사용하여 부수 효과(사이드 이펙트)를 처리
   // 이 부분은 컴포넌트가 마운트될 때(fetch 요청 등) 실행하도록 설정
   // 마운트 시 한 번 실행. 두 번째 매개변수인 빈 배열([])은 의존성 배열로, 여기서는 의존성이 없으므로 한 번만 실행
@@ -71,7 +73,6 @@ function App() {
   }, []);
 
   
-
   // callApi 함수는 비동기 함수로, 서버에서 고객 정보를 가져오기 위해 API 요청
   const callApi = async () => {
     // fetch 함수를 사용하여 '/api/customers' 엔드포인트에 GET 요청
