@@ -43,8 +43,6 @@ function App() {
     setModalOpen(!modalOpen);
   };
 
-
-
   // useEffect 훅을 사용하여 부수 효과(사이드 이펙트)를 처리
   // 이 부분은 컴포넌트가 마운트될 때(fetch 요청 등) 실행하도록 설정
   // 마운트 시 한 번 실행. 두 번째 매개변수인 빈 배열([])은 의존성 배열로, 여기서는 의존성이 없으므로 한 번만 실행
@@ -83,29 +81,6 @@ function App() {
     // 파싱된 데이터(body)를 반환
     return body;
   };
-      // 이 함수는 서버로 POST 요청을 보내고 고객 데이터를 추가합니다.
-//   const handleCustomerSubmit = (formData) => {
-//     // 서버로 보낼 데이터를 정의
-//     const data = {
-//       id: formData.id,
-//       image: formData.image,
-//       name: formData.name,
-//       birthday: formData.birthday,
-//       gender: formData.gender,
-//       job: formData.job,
-//     };
-//      // 서버의 /api/customers 엔드포인트로 POST 요청 보내기
-//      axios.post('/api/customers', data)
-//      .then((response) => {
-//        // 요청 성공 시 새로운 고객 데이터를 추가하여 상태를 업데이트
-//        setCustomers([...customers, response.data]);
-//        handleToggleModal(); // 모달 닫기
-//      })
-//      .catch((error) => {
-//        console.error(error);
-//      });
-//  };
-
 
   return (
     <RootContainer>
