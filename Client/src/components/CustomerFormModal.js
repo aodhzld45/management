@@ -18,14 +18,11 @@ const StyledDialog = styled(Dialog)({
   }
 });
 
+
 Modal.setAppElement('#root'); // 모달을 사용할 앱의 루트 엘리먼트 설정
 
 function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
-  const [modalOpen, setModalOpen] = useState(false);
 
-  const handleToggleModal = () => {
-    setModalOpen(!modalOpen);
-  };
   const [formData, setFormData] = useState({
     file: null,
     name: '',
@@ -96,11 +93,10 @@ function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
       return axios.post(url, customerFormData, config);
     }
 
-    // 바인딩 처리
+    // 화살표 함수를 이용한 자동 바인딩 처리
     const handleClickOpen = (e) => {
       setFormData({
-        ...formData,
-        open: true,
+        open: true
       });
     }
 
@@ -112,7 +108,7 @@ function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
       gender: '',
       job: '',
       fileName: '',
-      open: false,
+      open: false
     });
     }
 
@@ -120,78 +116,94 @@ function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
 
 {/*isOpen={modalOpen} toggleModal={handleToggleModal}*/}
   return (
-    // <div>
-    //   <Button variant='contained' color='primary' onClick={handleClickOpen}>
-    //       고객 추가하기
-    //   </Button>
-    //   <StyledDialog open={setFormData.open} onClose={handleClose}>
-    //       <DialogTitle>고객 추가</DialogTitle>
+    <div>
+      <Button variant='contained' color='primary' onClick={handleClickOpen}>
+          고객 추가하기
+      </Button>
+      <StyledDialog open={formData.open} onClose={handleClose}>
+          <DialogTitle>고객 추가</DialogTitle>
+          <DialogContent>
 
-    //   </StyledDialog>
-    // </div>
-    <Modal
-    isOpen={isOpen} // 모달 열기/닫기 상태
-    onRequestClose={toggleModal} // 모달을 닫을 때 호출되는 함수
-    contentLabel="Customer Form Modal" // 모달의 레이블
-  >
-    <h2>고객 정보 입력</h2>
-            <form onSubmit={handleFormSubmit}>
-              <label>
-                프로필 이미지:
-                <input
-                  type="file"
-                  value={formData.fileName}
-                  // file={formData.file}
-                  name='file'
-                  onChange={handleFileChange}
-                />
-              </label>
-              <label>
-                이름:
-                <input
-                  type="text"
-                  value={formData.name}
-                  name='name'
-                  onChange={handleValueChange}
-                />
-              </label>
-              <label>
-                생년월일:
-                <input
-                  type="text"
-                  name='birthday'
-                  value={formData.birthday}
-                  onChange={handleValueChange}
-                />
-              </label>
-              <label>
-                성별:
-                <input
-                  type="text"
-                  value={formData.gender}
-                  name='gender'
-                  onChange={handleValueChange}
-                />
-              </label>
-              <label>
-                직업:
-                <input
-                  type="text"
-                  value={formData.job}
-                  name='job'
-                  onChange={handleValueChange}
-                />
-              </label>
-              <button type="submit">
-                  추가하기
-                </button>
-                <button type="button" onClick={toggleModal}>
-                  취소
-                </button>
-            </form>
+          <input type="file" accept='image/*' style={{ display: 'none' }}  id='raised-button-file' value={formData.fileName}  onChange={handleFileChange} />
+          <label htmlFor='raised-button-file'>
+            <Button variant='contained' color='primary' component="span" name='file' >
+                {formData.fileName === "" ? "프로필 이미지 선택" : formData.fileName} 
+            </Button>
+          </label><br/>
+
+          <TextField label="이름" type="text" value={formData.name} name='name' onChange={handleValueChange} /><br /> 
+          <TextField label="생년월일" type="text" name='birthday' value={formData.birthday} onChange={handleValueChange} /><br /> 
+          <TextField label="성별" type="text" value={formData.gender} name='gender' onChange={handleValueChange} /><br /> 
+          <TextField label="직업" type="text" value={formData.job} name='job' onChange={handleValueChange} /><br /> 
+
+          </DialogContent>
+
+      </StyledDialog>
+    </div>
+
+  //   <Modal
+  //   isOpen={isOpen} // 모달 열기/닫기 상태
+  //   onRequestClose={toggleModal} // 모달을 닫을 때 호출되는 함수
+  //   contentLabel="Customer Form Modal" // 모달의 레이블
+  // >
+  //   <h2>고객 정보 입력</h2>
+  //           <form onSubmit={handleFormSubmit}>
+  //             <label>
+  //               프로필 이미지:
+  //               <input
+  //                 type="file"
+  //                 value={formData.fileName}
+  //                 // file={formData.file}
+  //                 name='file'
+  //                 onChange={handleFileChange}
+  //               />
+  //             </label>
+  //             <label>
+  //               이름:
+  //               <input
+  //                 type="text"
+  //                 value={formData.name}
+  //                 name='name'
+  //                 onChange={handleValueChange}
+  //               />
+  //             </label>
+  //             <label>
+  //               생년월일:
+  //               <input
+  //                 type="text"
+  //                 name='birthday'
+  //                 value={formData.birthday}
+  //                 onChange={handleValueChange}
+  //               />
+  //             </label>
+  //             <label>
+  //               성별:
+  //               <input
+  //                 type="text"
+  //                 value={formData.gender}
+  //                 name='gender'
+  //                 onChange={handleValueChange}
+  //               />
+  //             </label>
+  //             <label>
+  //               직업:
+  //               <input
+  //                 type="text"
+  //                 value={formData.job}
+  //                 name='job'
+  //                 onChange={handleValueChange}
+  //               />
+  //             </label>
+  //             <button type="submit">
+  //                 추가하기
+  //               </button>
+  //               <button type="button" onClick={toggleModal}>
+  //                 취소
+  //               </button>
+  //           </form>
       
       
-    </Modal>
+  //   </Modal>
   );
 }
 
