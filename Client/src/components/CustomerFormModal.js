@@ -30,7 +30,7 @@ function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
     gender: '',
     job: '',
     fileName: '',
-    open: false
+    open: false,
   });
 
   const handleFormSubmit = async (e) => {
@@ -49,7 +49,8 @@ function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
       birthday: '',
       gender: '',
       job: '',
-      fileName: ''
+      fileName: '',
+      open: false,
     });
     // window.location.reload(); // 페이지 새로고침.
 
@@ -114,29 +115,33 @@ function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
 
 
 
-{/*isOpen={modalOpen} toggleModal={handleToggleModal}*/}
   return (
     <div>
       <Button variant='contained' color='primary' onClick={handleClickOpen}>
           고객 추가하기
       </Button>
-      <StyledDialog open={formData.open} onClose={handleClose}>
+      <StyledDialog open={formData.open}>
           <DialogTitle>고객 추가</DialogTitle>
-          <DialogContent>
-
+          <DialogContent open={formData.open}>
           <input type="file" accept='image/*' style={{ display: 'none' }}  id='raised-button-file' value={formData.fileName}  onChange={handleFileChange} />
           <label htmlFor='raised-button-file'>
             <Button variant='contained' color='primary' component="span" name='file' >
-                {formData.fileName === "" ? "프로필 이미지 선택" : formData.fileName} 
+              {/* {formData.fileName === '' ? '프로필 이미지 선택' : formData.fileName} */}
+              {formData.file ? formData.file.name : '프로필 이미지 선택'}
             </Button>
           </label><br/>
-
           <TextField label="이름" type="text" value={formData.name} name='name' onChange={handleValueChange} /><br /> 
           <TextField label="생년월일" type="text" name='birthday' value={formData.birthday} onChange={handleValueChange} /><br /> 
           <TextField label="성별" type="text" value={formData.gender} name='gender' onChange={handleValueChange} /><br /> 
           <TextField label="직업" type="text" value={formData.job} name='job' onChange={handleValueChange} /><br /> 
 
           </DialogContent>
+
+          <DialogActions>
+            <Button variant='contained' color='primary' onClick={handleFormSubmit}>추가</Button>
+            <Button variant='outlined' color='primary' onClick={handleClose}>닫기</Button>
+
+          </DialogActions>
 
       </StyledDialog>
     </div>
