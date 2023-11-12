@@ -21,8 +21,9 @@ const StyledDialog = styled(Dialog)({
 
 Modal.setAppElement('#root'); // 모달을 사용할 앱의 루트 엘리먼트 설정
 
-function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
+function CustomerFormModal({ stateRefresh }) {
 
+  const [dialog, setDialog] = useState(false);
   const [formData, setFormData] = useState({
     file: null,
     name: '',
@@ -30,7 +31,6 @@ function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
     gender: '',
     job: '',
     fileName: '',
-    open: false,
   });
 
   const handleFormSubmit = async (e) => {
@@ -40,7 +40,7 @@ function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
     .then((res) => {
       console.log(res.data);
       stateRefresh();
-      toggleModal();
+      setDialog();
     });
     // 값 초기화
     setFormData({
@@ -96,21 +96,19 @@ function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
 
     // 화살표 함수를 이용한 자동 바인딩 처리
     const handleClickOpen = (e) => {
-      setFormData({
-        open: true
-      });
+      setDialog(true);
     }
 
     const handleClose = (e) => {
-     setFormData({
+      setFormData({
       file: null,
       name: '',
       birthday: '',
       gender: '',
       job: '',
       fileName: '',
-      open: false
     });
+      setDialog(false);
     }
 
 
@@ -120,7 +118,7 @@ function CustomerFormModal({ isOpen, toggleModal, stateRefresh }) {
       <Button variant='contained' color='primary' onClick={handleClickOpen}>
           고객 추가하기
       </Button>
-      <StyledDialog open={formData.open}>
+      <StyledDialog open={dialog} onClose={handleClose}>
           <DialogTitle>고객 추가</DialogTitle>
           <DialogContent open={formData.open}>
           <input type="file" accept='image/*' style={{ display: 'none' }}  id='raised-button-file' value={formData.fileName}  onChange={handleFileChange} />
