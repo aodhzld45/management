@@ -6,22 +6,80 @@ import React, { useState, useEffect } from 'react'; // React, useState, useEffec
 // material-ui를 통한 테이블
 import Table from '@mui/material/Table';
 import { TableHead, TableBody, TableRow, TableCell } from '@mui/material';
-import { styled } from '@mui/system'; // styled 함수를 import
 import { Paper } from '@mui/material';
 // Progress Loading bar
 import CircularProgress from '@mui/material/CircularProgress';
-// import axios from 'axios'; // axios 추가
 
+// React Material-Ui App Bar Import
+import { styled, alpha } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import InputBase from '@mui/material/InputBase';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
 
-const RootContainer = styled(Paper)({
+// const RootContainer = styled(Paper)({
+//   width: '100%',
+//   marginTop: 'theme.spacing.unit * 3',
+//   overflowX: 'auto',
+// });
+
+const RootContainer = styled(Paper)(({ theme }) => ({
   width: '100%',
-  marginTop: 'theme.spacing.unit * 3',
+  marginTop: theme.spacing(3),  // 수정된 부분
   overflowX: 'auto',
-});
+}));
 
-const TableContainer = styled(Table)({
+
+const TableContainer = styled(Table)(({ theme }) => ({
   minWidth: 1080,
-});
+}));
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(1),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
+      },
+    },
+  },
+}));
+
 
 function App() {
   // useState 훅을 사용하여 'customers' 상태와 그 상태를 업데이트할 'setCustomers' 함수를 생성
@@ -84,7 +142,42 @@ function App() {
   };
 
   return (
-    <RootContainer>
+    
+
+
+  <RootContainer>
+     <Box sx={{ flexGrow: 1 }}>
+          <AppBar position="static">
+            <Toolbar>
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography
+                variant="h6"
+                noWrap
+                component="div"
+                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+              >
+                MUI
+              </Typography>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </Search>
+            </Toolbar>
+          </AppBar>
+      </Box>
       <TableContainer>
         <TableHead>
           <TableRow>
@@ -122,10 +215,11 @@ function App() {
       <div>
       <button onClick={handleToggleModal}>고객 추가</button>
       <CustomerFormModal isOpen={modalOpen} toggleModal={handleToggleModal} stateRefresh={stateRefresh} />
-
       </div>
+
       
-    </RootContainer>
+  </RootContainer>
+ 
   );
 }
 
