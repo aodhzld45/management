@@ -30,13 +30,13 @@ import { useTheme } from '@mui/system';
 
 const RootContainer = styled(Paper)(({ theme }) => ({
   width: '100%',
-  marginTop: theme.spacing(3),
-  overflowX: 'auto',
+  minWidth: 1080
 }));
 
 
 const TableContainer = styled(Table)(({ theme }) => ({
-  minWidth: 1080,
+  marginLeft: 18,
+  marginRight: 18
 }));
 
 const Search = styled('div')(({ theme }) => ({
@@ -80,14 +80,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const TableHeadCell = styled(TableCell)(({ theme }) => ({
+  // 스타일을 여기에 정의
+  fontWeight: 'bold',
+  fontSize : '1.0rem',
+    // 추가적인 스타일 정의...
+}));
+
 
 function App() {
   // useState 훅을 사용하여 'customers' 상태와 그 상태를 업데이트할 'setCustomers' 함수를 생성
   // 'customers'는 서버에서 불러온 고객 정보를 저장할 배열, 초기값은 빈 배열
   const [customers, setCustomers] = useState([]);
   const [completed, setCompleted] = useState(0);
-  const [modalOpen, setModalOpen] = useState(false);
 
+  // Styled - theme 정의
   const theme = useTheme();
 
   // SPA를 이용한 state Refresh -> 함수 자체를 Props 형태로 전달
@@ -98,12 +105,6 @@ function App() {
     .then((res) => setCustomers(res))
     .catch((err) => console.log(err));
   };
-
-  const handleToggleModal = () => {
-    setModalOpen(!modalOpen);
-  };
-
-
 
   // useEffect 훅을 사용하여 부수 효과(사이드 이펙트)를 처리
   // 이 부분은 컴포넌트가 마운트될 때(fetch 요청 등) 실행하도록 설정
@@ -143,8 +144,11 @@ function App() {
     return body;
   };
 
+  const cellList = ["번호", "이미지", "이름", "생년월일", "성별", "직업", "설정"];
+
   return (
     <RootContainer theme={theme}>
+        <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static">
             <Toolbar>
               <IconButton
@@ -175,17 +179,13 @@ function App() {
               </Search>
             </Toolbar>
           </AppBar>
-   
+        </Box>
       <TableContainer>
         <TableHead>
           <TableRow>
-            <TableCell>번호</TableCell>
-            <TableCell>이미지</TableCell>
-            <TableCell>이름</TableCell>
-            <TableCell>생년월일</TableCell>
-            <TableCell>성별</TableCell>
-            <TableCell>직업</TableCell>
-            <TableCell>설정</TableCell>
+            {cellList.map(c => {
+              return <TableHeadCell>{c}</TableHeadCell>
+            })}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -211,8 +211,7 @@ function App() {
       </TableContainer>
 
       <div>
-      <button onClick={handleToggleModal}>고객 추가</button>
-      <CustomerFormModal isOpen={modalOpen} toggleModal={handleToggleModal} stateRefresh={stateRefresh} />
+      <CustomerFormModal stateRefresh={stateRefresh} />
       </div>
 
       
