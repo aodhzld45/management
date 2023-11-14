@@ -26,10 +26,11 @@ import SearchIcon from '@mui/icons-material/Search';
 //   marginTop: 'theme.spacing.unit * 3',
 //   overflowX: 'auto',
 // });
+import { useTheme } from '@mui/system';
 
 const RootContainer = styled(Paper)(({ theme }) => ({
   width: '100%',
-  marginTop: theme.spacing(3),  // 수정된 부분
+  marginTop: theme.spacing(3),
   overflowX: 'auto',
 }));
 
@@ -67,7 +68,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -87,6 +87,8 @@ function App() {
   const [customers, setCustomers] = useState([]);
   const [completed, setCompleted] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
+
+  const theme = useTheme();
 
   // SPA를 이용한 state Refresh -> 함수 자체를 Props 형태로 전달
   const stateRefresh = () => {
@@ -142,11 +144,7 @@ function App() {
   };
 
   return (
-    
-
-
-  <RootContainer>
-     <Box sx={{ flexGrow: 1 }}>
+    <RootContainer theme={theme}>
           <AppBar position="static">
             <Toolbar>
               <IconButton
@@ -156,7 +154,7 @@ function App() {
                 aria-label="open drawer"
                 sx={{ mr: 2 }}
               >
-                <MenuIcon />
+              <MenuIcon />
               </IconButton>
               <Typography
                 variant="h6"
@@ -164,7 +162,7 @@ function App() {
                 component="div"
                 sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
               >
-                MUI
+                SEO 고객관리시스템
               </Typography>
               <Search>
                 <SearchIconWrapper>
@@ -177,7 +175,7 @@ function App() {
               </Search>
             </Toolbar>
           </AppBar>
-      </Box>
+   
       <TableContainer>
         <TableHead>
           <TableRow>
@@ -219,7 +217,6 @@ function App() {
 
       
   </RootContainer>
- 
   );
 }
 
