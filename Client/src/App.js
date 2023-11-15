@@ -128,6 +128,11 @@ function App() {
   return (
     <RootContainer theme={theme}>
       <SearchAppBar />
+      
+      <CustomerAddButton className='customerAddBtn'>
+        <CustomerFormModal stateRefresh={stateRefresh} />
+      </CustomerAddButton>
+
       <TableContainer>
         <TableHead>
           <TableRow>
@@ -158,9 +163,7 @@ function App() {
         </TableBody>
       </TableContainer>
 
-      <CustomerAddButton className='customerAddBtn'>
-        <CustomerFormModal stateRefresh={stateRefresh} />
-      </CustomerAddButton>
+   
 
       <CustomerAddButton className='custom-class'>
           <p>test입니다.</p>
