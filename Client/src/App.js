@@ -73,6 +73,7 @@ function App() {
   const [customers, setCustomers] = useState([]);
   const [completed, setCompleted] = useState(0);
 
+
   // Styled - theme 정의
   const theme = useTheme();
 
@@ -84,6 +85,7 @@ function App() {
     .then((res) => setCustomers(res))
     .catch((err) => console.log(err));
   };
+  
 
   // useEffect 훅을 사용하여 부수 효과(사이드 이펙트)를 처리
   // 이 부분은 컴포넌트가 마운트될 때(fetch 요청 등) 실행하도록 설정

@@ -38,27 +38,58 @@ oracledb.getConnection(connectionConfig, (err, connection) => {
   // 연결이 성공적으로 생성되었을 때 실행할 코드
 
 // 고객 정보를 반환하는 GET 요청을 처리하는 엔드포인트
-  app.get('/api/customers', (req, res) => {
-    connection.execute(
-      'SELECT * FROM CUSTOMER WHERE ISDELETED = 0',
-      (err, result) => {
-        if (err) {
-          console.error(err.message);
-          return;
-        }
-        const customers = result.rows.map((row) => ({
-          id: row[0],
-          image: row[1],
-          name: row[2],
-          birthday: row[3],
-          gender: row[4],
-          job: row[5],
-        }));
-        // 고객 목록을 JSON 형식으로 클라이언트에 반환
-        res.json(customers);
-      }
-    );
+  // app.get('/api/customers', (req, res) => {
+  //   connection.execute(
+  //     'SELECT * FROM CUSTOMER WHERE ISDELETED = 0',
+  //     (err, result) => {
+  //       if (err) {
+  //         console.error(err.message);
+  //         return;
+  //       }
+  //       const customers = result.rows.map((row) => ({
+  //         id: row[0],
+  //         image: row[1],
+  //         name: row[2],
+  //         birthday: row[3],
+  //         gender: row[4],
+  //         job: row[5],
+  //       }));
+  //       // 고객 목록을 JSON 형식으로 클라이언트에 반환
+  //       res.json(customers);
+  //     }
+  //   );
+  // });
+
+  // 고객 정보를 반환하는 GET 요청을 처리하는 엔드포인트
+app.get('/api/customers', (req, res) => {
+  const { searchKeyword } = req.query;
+
+  let query = 'SELECT * FROM CUSTOMER WHERE ISDELETED = 0';
+
+  // 검색어가 제공된 경우, 이름에 검색어가 포함된 결과를 가져옴
+  if (searchKeyword) {
+    query += ` AND LOWER(name) LIKE LOWER('%${searchKeyword}%')`;
+  }
+
+  connection.execute(query, (err, result) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+    const customers = result.rows.map((row) => ({
+      id: row[0],
+      image: row[1],
+      name: row[2],
+      birthday: row[3],
+      gender: row[4],
+      job: row[5],
+    }));
+
+    // 고객 목록을 JSON 형식으로 클라이언트에 반환
+    res.json(customers);
   });
+});
 
 
 
@@ -100,6 +131,8 @@ app.delete('/api/customers/:id', (req, res) => {
   });
 
 });
+
+
 
 
 

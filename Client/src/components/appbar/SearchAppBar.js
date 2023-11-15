@@ -77,7 +77,7 @@ function SearchAppBar() {
                   <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
-                  placeholder="Search…"
+                  placeholder="검색하기"
                   inputProps={{ 'aria-label': 'search' }}
                 />
               </Search>

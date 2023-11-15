@@ -10,7 +10,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/system'; // styled 함수를 import
 
-
 const StyledDialog = styled(Dialog)({
   // 다이얼로그 컨테이너에 대한 사용자 정의 스타일을 추가
   hidden: {
@@ -72,6 +71,12 @@ function CustomerFormModal({ stateRefresh }) {
         ...formData,
         [name]: value // 해당 필드만 갱신
       });
+
+      // 검색 기능 추가 부분
+      let nextState = {};
+      nextState[e.target.name] = e.target.value;
+      setFormData(nextState);
+
     };
 
     const addCustomer = () => {
