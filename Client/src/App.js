@@ -1,6 +1,9 @@
 import './App.css';
+//외부 Components import
 import Customer from './components/Customer';
 import CustomerFormModal from "./components/CustomerFormModal";
+import SearchAppBar from './components/appbar/SearchAppBar';
+
 import React, { useState, useEffect } from 'react'; // React, useState, useEffect를 import
 
 // material-ui를 통한 테이블
@@ -11,15 +14,7 @@ import { Paper } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 
 // React Material-Ui App Bar Import
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
+import { styled } from '@mui/material/styles';
 
 // const RootContainer = styled(Paper)({
 //   width: '100%',
@@ -39,46 +34,6 @@ const TableContainer = styled(Table)(({ theme }) => ({
   marginRight: 18
 }));
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
-    },
-  },
-}));
 
 const TableHeadCell = styled(TableCell)(({ theme }) => ({
   // 스타일을 여기에 정의
@@ -148,38 +103,7 @@ function App() {
 
   return (
     <RootContainer theme={theme}>
-        <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
-            <Toolbar>
-              <IconButton
-                size="large"
-                edge="start"
-                color="inherit"
-                aria-label="open drawer"
-                sx={{ mr: 2 }}
-              >
-              <MenuIcon />
-              </IconButton>
-              <Typography
-                variant="h6"
-                noWrap
-                component="div"
-                sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-              >
-                SEO 고객관리시스템
-              </Typography>
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
-                />
-              </Search>
-            </Toolbar>
-          </AppBar>
-        </Box>
+      <SearchAppBar />
       <TableContainer>
         <TableHead>
           <TableRow>
