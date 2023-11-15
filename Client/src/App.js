@@ -57,12 +57,12 @@ const CustomerAddButton = styled('div')(({ theme, className }) => ({
       justifyContent : 'center',
     },
 
-    '&.custom-class': {
-      fontWeight : 'bold',
-      fontSize : 16,
-      backgroundColor : 'blue',
-      color : 'white',
-    }
+    // '&.custom-class': {
+    //   fontWeight : 'bold',
+    //   fontSize : 16,
+    //   backgroundColor : 'blue',
+    //   color : 'white',
+    // }
 
 }));
 
@@ -71,6 +71,9 @@ function App() {
   // useState 훅을 사용하여 'customers' 상태와 그 상태를 업데이트할 'setCustomers' 함수를 생성
   // 'customers'는 서버에서 불러온 고객 정보를 저장할 배열, 초기값은 빈 배열
   const [customers, setCustomers] = useState([]);
+
+  // 부모 컴포넌트에서 filteredCustomers 상태와 setFilteredCustomers 함수를 선언
+  const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [completed, setCompleted] = useState(0);
 
 
@@ -80,7 +83,7 @@ function App() {
   // SPA를 이용한 state Refresh -> 함수 자체를 Props 형태로 전달
   const stateRefresh = () => {
     setCustomers([]);
-    // setCompleted(0);
+    setCompleted(0);
     callApi()
     .then((res) => setCustomers(res))
     .catch((err) => console.log(err));
@@ -126,15 +129,16 @@ function App() {
   };
 
   const cellList = ["번호", "이미지", "이름", "생년월일", "성별", "직업", "설정"];
-
+    
   return (
     <RootContainer theme={theme}>
-      <SearchAppBar />
+      {/* SearchAppBar 컴포넌트에 customers 배열과 setFilteredCustomers 함수를 전달 */}
+      <SearchAppBar customers={customers} setFilteredCustomers={setFilteredCustomers} />
       
       <CustomerAddButton className='customerAddBtn'>
         <CustomerFormModal stateRefresh={stateRefresh} />
       </CustomerAddButton>
-
+  
       <TableContainer>
         <TableHead>
           <TableRow>
@@ -145,7 +149,7 @@ function App() {
         </TableHead>
         <TableBody>
           {completed === 100 ? (
-            customers.map((c) => (
+            (filteredCustomers.length > 0 ? filteredCustomers : customers).map((c) => (
               <Customer
                 id={c.id}
                 image={c.image}
@@ -164,15 +168,11 @@ function App() {
           )}
         </TableBody>
       </TableContainer>
-
-   
-
-      <CustomerAddButton className='custom-class'>
-          <p>test입니다.</p>
-      </CustomerAddButton>
-
-      
-  </RootContainer>
+  
+      {/* <CustomerAddButton className='custom-class'>
+        <p>test입니다.</p>
+      </CustomerAddButton> */}
+    </RootContainer>
   );
 }
 
