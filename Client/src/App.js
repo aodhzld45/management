@@ -39,7 +39,31 @@ const TableHeadCell = styled(TableCell)(({ theme }) => ({
   // 스타일을 여기에 정의
   fontWeight: 'bold',
   fontSize : '1.0rem',
-    // 추가적인 스타일 정의...
+    // 추가적인 스타일 정의
+}));
+
+// ClassName을 통한 커스터마이징 디자인 : 
+/*
+'&.ClassName명칭' : {
+    // 스타일을 여기에 정의
+}
+
+*/
+const CustomerAddButton = styled('div')(({ theme, className }) => ({
+    '&.customerAddBtn': {
+      marginTop : 15,
+      marginBottom : 15,
+      display : 'flex',
+      justifyContent : 'center',
+    },
+
+    '&.custom-class': {
+      fontWeight : 'bold',
+      fontSize : 16,
+      backgroundColor : 'blue',
+      color : 'white',
+    }
+
 }));
 
 
@@ -134,9 +158,13 @@ function App() {
         </TableBody>
       </TableContainer>
 
-      <div>
-      <CustomerFormModal stateRefresh={stateRefresh} />
-      </div>
+      <CustomerAddButton className='customerAddBtn'>
+        <CustomerFormModal stateRefresh={stateRefresh} />
+      </CustomerAddButton>
+
+      <CustomerAddButton className='custom-class'>
+          <p>test입니다.</p>
+      </CustomerAddButton>
 
       
   </RootContainer>
