@@ -85,8 +85,11 @@ function App() {
     setCustomers([]);
     setCompleted(0);
     callApi()
-    .then((res) => setCustomers(res))
-    .catch((err) => console.log(err));
+      .then((res) => {
+        setCompleted(100); // 데이터를 성공적으로 불러왔을 때 completed를 100으로 설정
+        setCustomers(res);
+      })
+      .catch((err) => console.log(err));
   };
   
 
@@ -136,7 +139,7 @@ function App() {
       <SearchAppBar customers={customers} setFilteredCustomers={setFilteredCustomers} />
       
       <CustomerAddButton className='customerAddBtn'>
-        <CustomerFormModal stateRefresh={stateRefresh} />
+        <CustomerFormModal stateRefresh={stateRefresh}/>
       </CustomerAddButton>
   
       <TableContainer>

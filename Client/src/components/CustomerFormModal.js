@@ -20,7 +20,7 @@ const StyledDialog = styled(Dialog)({
 
 Modal.setAppElement('#root'); // 모달을 사용할 앱의 루트 엘리먼트 설정
 
-function CustomerFormModal({ stateRefresh }) {
+function CustomerFormModal({stateRefresh}) {
 
   const [dialog, setDialog] = useState(false);
   const [formData, setFormData] = useState({
@@ -38,7 +38,7 @@ function CustomerFormModal({ stateRefresh }) {
     addCustomer()
     .then((res) => {
       console.log(res.data);
-      stateRefresh();
+      stateRefresh()
       setDialog();
     });
     // 값 초기화
@@ -67,15 +67,12 @@ function CustomerFormModal({ stateRefresh }) {
     const handleValueChange = (e) => {
       const name = e.target.name;
       const value = e.target.value;
-      setFormData({
-        ...formData,
-        [name]: value // 해당 필드만 갱신
-      });
 
-      // 검색 기능 추가 부분
-      let nextState = {};
-      nextState[e.target.name] = e.target.value;
-      setFormData(nextState);
+    // 검색 기능 추가 부분
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value
+    }));
 
     };
 
